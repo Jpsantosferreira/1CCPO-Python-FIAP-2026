@@ -1,0 +1,28 @@
+from disciplina import Disciplina
+
+class Aluno:
+    def __init__(self, nome, rm, curso):
+        self.nome = nome
+        self.rm = rm
+        self.curso = curso
+        self.disciplinas = []            # array - [Disciplina, Disciplina]
+        self.notas_por_disciplina = {}   # dict - {"materia": [nota, nota..]}
+
+    def matricular(self, disciplina: Disciplina):
+        self.disciplinas.append(disciplina)
+        self.notas_por_disciplina.setdefault(disciplina.nome, [])
+
+    def adicionar_nota(self, disciplina: Disciplina, nota: float):
+        self.notas_por_disciplina[disciplina.nome].append(nota)
+
+    def calcular_media_d(self, d: Disciplina) -> float:
+        notas = self.notas_por_disciplina.get(d.nome, [])
+        return sum(notas) / len(notas)  # arrumar o seguinte: se a nota for 0?
+
+    def calcular_media_g(self) -> float:
+        medias = []
+        for d in self.disciplinas:
+            media_d = self.calcular_media_d(d)
+            medias.append(media_d)
+
+        return sum(medias) / len(medias)
